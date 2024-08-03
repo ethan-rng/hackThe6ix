@@ -2,32 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html{
+  scroll-behavior: smooth;
+  font-size: 6px
+}
+
+
+/* Larger font size for tablets and small desktops */
+@media (min-width: 768px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+/* Even larger font size for medium desktops */
+@media (min-width: 1024px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+/* Largest font size for large desktops */
+@media (min-width: 1200px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1400px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1536px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 23px;
+  }
+}
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  font-family: proxima-nova, sans-serif;
+  font-style: normal;
+  font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
