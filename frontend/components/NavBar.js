@@ -20,9 +20,10 @@ const NavBar = () => {
   }, [isOpen]);
 
   return (
-    <div className="w-full h-auto bg-primary flex flex-row px-10 pt-8 pb-2 items-center justify-between">
-      <a href="/">
-        <Image src="/logo.png" height={250} width={70} className="" />
+    <div className="w-full h-auto bg-primary flex flex-row px-10 py-4 items-center justify-between">
+      <a className="flex flex-row items-center text-white text-4xl" href="/">
+        <Image src="/flocklogo.png" height={187.5} width={52.5} className="" />
+        <h1 className="pl-3">Flock</h1>
       </a>
 
       <div className="flex flex-row items-center text-white text-2xl">

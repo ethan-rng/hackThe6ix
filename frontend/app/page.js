@@ -21,14 +21,9 @@ export default function Home() {
           <div
             className="w-1/2"
           >
-            <Spline
-              scene="https://prod.spline.design/yVzSPG8NwsgEWQc7/scene.splinecode"
-            />
           </div>
         </div>
-        
       </div>
-      
     </main>
   );
 }
