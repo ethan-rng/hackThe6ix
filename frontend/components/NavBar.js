@@ -33,15 +33,15 @@ const NavBar = () => {
         {user ? (
           <div
             ref={userSectionRef}
-            className="rounded-full w-auto px-10 py-3 bg-highlight flex flex-row items-center text-right"
+            className="rounded-full w-auto px-10 py-3 bg-highlight flex flex-row items-center text-right cursor-pointer"
+            onClick={handleClickProfile}
           >
             {user.name}
             <Image
               src="/arrowDown.png"
               height={10}
               width={10}
-              onClick={handleClickProfile}
-              className="ml-3 h-2 w-3 cursor-pointer"
+              className="ml-3 h-2 w-3"
             />
           </div>
         ) : (
