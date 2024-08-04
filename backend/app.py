@@ -64,11 +64,21 @@ def analyze_frame():
     picture = request.form.get('picture')
     image = base64_to_image(picture)
 
-    if not image:
+    if not image or not venue:
         return jsonify({'error': 'No image file provided'}), 400
     
     try:
         result = call_crowd_recognition(image)
+
+        db = get_db()
+        collection = db['venues']
+        query = {'venueName': venue}
+
+        venue_entry = collection.find_one(query)
+        if not venue_entry:
+            return jsonify({'error': 'No venue entry for specified'}), 400
+
+        calculate_density(venue_entry.get('venueName'), result, venue_entry.get('width_m'), venue_entry.get('height_m'))
         return jsonify({'message': result}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
