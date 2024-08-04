@@ -4,8 +4,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from api_call import call_crowd_recognition
+from datetime import datetime
+from mongodb import get_db
 
-def calculate_density(predictions, image_width, image_height):
+def add_alert_to_db(date_time: datetime, venue: str, message: str):
+    db = get_db()
+    alerts_collection = db['alerts']
+
+    alert = {
+        'date_time': date_time,
+        'venue': venue,
+        'message': message
+    }
+
+    result = alerts_collection.insert_one(alert)
+    print(result.inserted_id)
+    return result.inserted_id    
+    
+def calculate_density(venue, predictions, image_width, image_height):
+    DENSITY_THRESHOLD_LOW = 0
+    DENSITY_THRESHOLD_MID = 0
+    DENSITY_THRESHOLD_HIGH = 0
+
     densities = []
     
     total_area = image_width * image_height
@@ -25,6 +45,16 @@ def calculate_density(predictions, image_width, image_height):
             'bounding_box_area': bbox_area,
             'density': density
         })
+        
+        if density >= DENSITY_THRESHOLD_HIGH:
+            message = f"Critical Alert: Density detected in venue {venue}: {bbox_area} has reached critical threshold. Current density: {density}."
+            add_alert_to_db(datetime.now(), venue, message)
+        elif density >= DENSITY_THRESHOLD_LOW:
+            message = f"Warning: Density detected in venue {venue}: {bbox_area} is approaching level of concern. Current density: {density}."
+            add_alert_to_db(datetime.now(), venue, message)
+        elif density >= DENSITY_THRESHOLD_MID:
+            message = f"Alert: Density detected in venue {venue}: {bbox_area} has reached level of concern. Current density: {density}."
+            add_alert_to_db(datetime.now(), venue, message)
     
     return densities
 
@@ -41,5 +71,5 @@ predictions = [
 image_width = 1920
 image_height = 1080
 
-densities = calculate_density(predictions, image_width, image_height)
+densities = calculate_density(1, predictions, image_width, image_height)
 print(densities)
