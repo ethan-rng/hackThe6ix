@@ -1,22 +1,27 @@
-import clientPromise from "../../../lib/mongodb"
+import clientPromise from "../../../lib/mongodb";
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ message: 'Email is required' });
-    }
-
+export async function POST(req) {
     try {
-      const db = clientPromise.db('hackthe6ix');
-      const result = await db.collection('users').insertOne({ email });
-      res.status(201).json(result);
+        const { email } = await req.json();
+
+        if (!email) {
+            return NextResponse.json({ message: 'Failed to register user', error: "email missing" }, { status: 400 });
+        }
+
+
+        const db = (await clientPromise).db('hackthe6ix');
+
+        const existingUser = await db.collection('users').findOne({ email });
+        if (existingUser) {
+            return NextResponse.json({ message: 'User already registered' }, { status: 400 });
+        }
+
+        const result = await db.collection('users').insertOne({ email, venues:[] });
+
+        return NextResponse.json({ message: 'User registered successfully', result }, { status: 200 });
     } catch (error) {
-      res.status(500).json({ message: 'Error creating user record' });
+        console.error(error);
+        return NextResponse.json({ message: 'Failed to register user', error: error.message }, { status: 500 });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
 }

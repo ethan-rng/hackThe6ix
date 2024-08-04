@@ -20,20 +20,21 @@ const NavBar = () => {
   }, [isOpen]);
 
   return (
-    <div className="w-full h-auto bg-primary flex flex-row px-10 py-4 items-center justify-between">
+    <div className="w-full bg-primary flex flex-row px-10 py-4 items-center justify-between">
       <a className="flex flex-row items-center text-white text-4xl" href="/">
-        <Image src="/flocklogo.png" height={187.5} width={52.5} className="" />
+        <Image src="/flocklogo.png" height={150} width={45} className="" />
         <h1 className="pl-3">Flock</h1>
       </a>
 
-      <div className="flex flex-row items-center text-white text-2xl">
-        <a href='/create-venue' className="mr-8">Create</a>
+      <div className="flex flex-row items-center text-white text-xl">
+        <a href='/create-venue' className="mr-8">Add Venue</a>
         <a href='/profile' className="mr-8">Dashboard</a>
+        <a href='/create-venue' className="mr-8">Alerts</a>
 
         {user ? (
           <div
             ref={userSectionRef}
-            className="rounded-full w-auto px-10 py-3 bg-highlight flex flex-row items-center text-right cursor-pointer"
+            className="rounded-full w-auto px-8 py-2 bg-highlight flex flex-row items-center text-right cursor-pointer"
             onClick={handleClickProfile}
           >
             {user.name}
@@ -46,7 +47,7 @@ const NavBar = () => {
           </div>
         ) : (
           <a
-            className="rounded-full px-10 py-3 bg-highlight"
+            className="rounded-full px-8 py-2 bg-highlight"
             href="/api/auth/login"
           >
             Login
