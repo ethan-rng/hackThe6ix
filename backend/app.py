@@ -1,28 +1,40 @@
 from flask import Flask, request, jsonify
 from frames import extract_frames
 import os
-from api_call import call_crowd_recognition
-from metrics import calculate_density
-from mongodb import get_db
-from bson import ObjectId  # Ensure ObjectId is imported from bson
+from api_test import call_crowd_recognition
+from density import calculate_density
 
 app = Flask(__name__)
 
-def serialize_document(doc):
-    """Convert MongoDB document to a JSON-serializable format."""
-    if doc is None:
-        return None
-    # Recursively convert ObjectId and other types
-    for key, value in doc.items():
-        if isinstance(value, ObjectId):
-            doc[key] = str(value)
-        elif isinstance(value, dict):
-            doc[key] = serialize_document(value)
-        elif isinstance(value, list):
-            doc[key] = [serialize_document(item) if isinstance(item, dict) else item for item in value]
-    return doc
+@app.route('/extract_frames', methods=['POST'])
+def extract_frames_from_video():
+    video_file = request.files.get('video')
+    frame_interval = request.form.get('frame_interval', type=int, default=1)  # Default to 1 if not provided
+    output_folder = 'extracted_frames'
 
-# make this handle so that it feeds venue into metrics
+    # Check if a video file was provided
+    if not video_file:
+        return jsonify({'error': 'No video file provided'}), 400
+
+    # Save the video file
+    video_path = os.path.join('concert_drone_footage', video_file.filename)
+    video_file.save(video_path)
+
+    # Ensure the output directory exists
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    try:
+        extract_frames(video_path, output_folder, frame_interval)
+        os.remove(video_path)
+        return jsonify({'message': 'Frames extracted successfully', 'output_folder': output_folder}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 @app.route('/analyze_frame', methods=['POST'])
 def analyze_frame():
     image = request.files.get('image')
@@ -39,30 +51,7 @@ def analyze_frame():
 # @app.route('/density-metrics', methods=['GET'])
 # def density_metrics():
     
-@app.route('/test-mongo', methods=['GET'])
-def mongo():
-    try:
-        # Access the database and collection
-        db = get_db()
-        collection = db['alerts']  # Replace with your actual collection name
-        
-        print(collection)
-        # Fetch some data from the collection
-        # Example: Fetch the first document in the collection
-        data = collection.find_one()
-        print(data)
-        
-        data = serialize_document(data)
 
-        # Return the data as a JSON response
-        if data:
-            return jsonify(data)
-        else:
-            return jsonify({'message': 'No data found'}), 404
-    
-    except Exception as e:
-        # Handle any errors that occur
-        return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/alert', methods=['GET'])
+def alert():
+    DENSITY_THRESHOLD = 0.0008

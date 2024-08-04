@@ -2,9 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Spline from "@splinetool/react-spline/next";
-import Spline from "@splinetool/react-spline/next";
-import mouse from "../public/mouse.svg";
 
 export default function Home() {
   return (
