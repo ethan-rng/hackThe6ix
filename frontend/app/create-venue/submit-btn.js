@@ -7,7 +7,7 @@ const SubmitBtn = () => {
     const { pending } = useFormStatus();
 
   return (
-    <button disabled={pending} type='submit' className='text-white rounded-3xl w-[32rem] px-16 m-5 py-3 bg-highlight disabled:bg-highlight/95'>
+    <button disabled={pending} type='submit' className='text-white rounded-2xl w-full mt-16 py-3 bg-highlight disabled:bg-highlight/95'>
         Submit
     </button>
   )
