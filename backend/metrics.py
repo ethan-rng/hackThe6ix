@@ -67,7 +67,7 @@ predictions = [
     {'x': 1561.875, 'y': 656.25, 'width': 37.5, 'height': 33.75, 'confidence': 0.1197568029165268, 'class': 'people', 'class_id': 0, 'detection_id': 'a406ec7e-1ff2-40b2-8b75-4ea7e7497562'}
 ]
 
-# Assuming the image size is 1920x1080
+# IN METERS
 image_width = 1920
 image_height = 1080
 
