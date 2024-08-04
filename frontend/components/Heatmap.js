@@ -32,7 +32,7 @@ const Heatmap = ({ data }) => {
   return (
     <div>
       {weightedData.map((point, index) => {
-        const size = 20 + point.weight * 20; // Base size 20, increase with weight
+        const size = 80 + point.weight * 40; // Base size 40, increase with weight
         const color = interpolateColor(point.weight);
         return (
           <div
@@ -44,7 +44,7 @@ const Heatmap = ({ data }) => {
               width: size,
               height: size,
               backgroundColor: color,
-              borderRadius: "50%",
+              borderRadius: "100%",
               opacity: 0.4 + 0.7 * point.weight, // Fixed opacity at 70%
               border: "10px solid neonpink", // Neon pink outline
             }}

@@ -1,37 +1,11 @@
+"use server";
 import React from "react";
 import Image from "next/image";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Heatmap from "@/components/Heatmap";
+import UploadForm from ".//UploadForm";
 
 const Page = async () => {
-  //   async function uploadImage(imageFile) {
-  //     const formData = new FormData();
-  //     formData.append("image", imageFile); // Append the image file
-
-  //     try {
-  //       const response = await fetch("http://127.0.0.1:5000/analyze_frame", {
-  //         method: "POST",
-  //         body: formData,
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-
-  //       const data = await response.json();
-  //       console.log("Success:", data);
-  //       return data; // Return the data
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   }
-
-  //   const data = await uploadImage(
-  //     "C:UsersJackyOneDriveDocuments_SideProjectshackThe6ix\frontendpublicplaceholder.jpg"
-  //   );
-  //   console.log("Data:", data);
-  // data = [];
-
   return (
     <div className="w-full mt-16">
       <div className="flex flex-col items-center mt-10">
@@ -41,6 +15,7 @@ const Page = async () => {
             Play around with the heatmap and see how it changes with different
             data points
           </p>
+          <UploadForm />
         </div>
         <div style={{ position: "relative", width: "100%", height: "500px" }}>
           <Image

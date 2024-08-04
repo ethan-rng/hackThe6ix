@@ -1,5 +1,7 @@
 from inference_sdk import InferenceHTTPClient, InferenceConfiguration
 
+
+
 def call_crowd_recognition(image_path):
     custom_configuration = InferenceConfiguration(confidence_threshold=0, iou_threshold=0)
 
