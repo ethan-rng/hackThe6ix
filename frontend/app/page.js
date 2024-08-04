@@ -23,6 +23,7 @@ export default function Home() {
           <div
             className="w-1/2"
           >
+            <Image src="/herocamera.png" height={800} width={800} className="" />
           </div>
         </div>
       </div>
