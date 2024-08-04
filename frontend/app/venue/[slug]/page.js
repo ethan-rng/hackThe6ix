@@ -12,14 +12,17 @@ const page = async ({params}) => {
   const client = await clientPromise;
   const db = client.db('hackthe6ix');
   const venue = await db.collection('venues').findOne({_id: new ObjectId(slug)});
-console.log(venue)
 
   return (
-    <div className="w-full flex flex-col">
-      <div className="w-full bg-secondary h-16">{/* Alert Messages */}</div>
+    <div className="w-full h-full flex flex-col">
 
-      <div className="w-full h-full">
-        <div className="w-1/6 h-full flex flex-col border-r-2">
+      <div className="w-full h-full ">
+      <div className="fixed top-32 left-0 z-50 w-1/6 h-full flex flex-col border-r-2 bg-highlight rounded-r-3xl text-white font-light pb-16">
+      <div className='mt-6 text-3xl ml-3 flex flex-row items-center'>
+          Live Feeds
+          <Image src="/arrowDown.png" height={90} width={120} className="border- ml-2 border-red-400 h-4 w-5" />
+        </div>
+
           <div className={sideBarCSS}>
             <Image 
               className='mr-3'
@@ -34,8 +37,8 @@ console.log(venue)
             <Image 
               className='mr-3'
               src='/pin.png'
-              width={25}
-              height={30}
+              width={20}
+              height={20}
             />
             Heat Map
           </div>
@@ -48,7 +51,7 @@ console.log(venue)
               width={35}
               height={60}
             />
-            Upload
+            Add Feeds
           </div>
         </div>
 

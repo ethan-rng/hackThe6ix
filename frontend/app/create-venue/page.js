@@ -2,10 +2,8 @@
 import React from "react";
 import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import SubmitBtn from "./submit-btn";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import clientPromise from "@/lib/mongodb";
-import { readFile } from "fs/promises";
 
 const page = async () => {
   const session = await getSession();
@@ -19,7 +17,7 @@ const page = async () => {
     const base64Image = Buffer.from(fileData).toString("base64");
 
     const resultVenue = await db.collection("venues").insertOne({
-      userID: session.email,
+      userID: session.user.email,
       venueName: formData.get("name"),
       seatingLimit: formData.get("seatingLimit"),
       length: formData.get("length"),
@@ -31,28 +29,24 @@ const page = async () => {
 
     await db
       .collection("users")
-      .updateOne({ email: session.email }, { $push: { venues: venueId } });
+      .updateOne({ email: session.user.email }, { $push: { venues: venueId } });
 
     redirect(`/venue/${venueId}`);
   };
 
   return (
     <div className="w-full mt-10 flex flex-col items-center">
-      <h1 className="text-4xl text-center mb-5 bg-highlight w-1/3 text-white py-3 rounded-3xl">
-        Please Create A New Venue/Event Here
-      </h1>
+      <div className="mx-10 text-3xl border-red-300 border- text-left mb-5 w-[69%] font-semibold text-black py-3 rounded-3xl">
+        <h1>Please Create A New Venue/Event Here</h1>
+        <p className='font-light text-xl mt-3'>
+            A repository contains all your venue's camera's and crowds sourcing needs. Simply add your venue's information below and we can begin monitoring your venue's occupancy level.
 
-      <div className="w-full mt-10 flex flex-row">
-        <div className="relative w-1/2 h-auto ml-10">
-          <Image
-            src="/b2b.jpeg"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-3xl"
-          />
-        </div>
+        </p>
+      </div>
+
+      <div className="w-full mt-5 mx-10 flex flex-row justify-center border- border-blue-300">
         <form
-          className="flex flex-col items-left w-1/2 mr-10"
+          className="flex flex-col items-left w-2/3 mr-10 border- border-red-300"
           action={handleSubmitForm}
         >
           <label className="mb-2 text-xl w-[32rem] text-left">
@@ -64,7 +58,7 @@ const page = async () => {
             className="mb-4 p-2 border rounded-3xl w-[32rem]"
             required
           />
-
+            <div className='w-full h-1 my-8 rounded-xl bg-zinc-300'/>
           <label className="mb-2 text-xl w-[32rem] text-left">
             Length in Meters:
           </label>
@@ -84,6 +78,7 @@ const page = async () => {
             className="mb-4 p-2 border rounded-3xl w-[32rem]"
             required
           />
+            <div className='w-full h-1 my-8 rounded-xl bg-zinc-300'/>
 
           <label className="mb-2 text-xl w-[32rem] text-left">
             Seating Size Limit:
@@ -94,6 +89,7 @@ const page = async () => {
             className="mb-4 p-2 border rounded-3xl w-[32rem]"
             required
           />
+            <div className='w-full h-1 mt-8 rounded-xl bg-zinc-300'/>
 
           <label className="mb-5 mt-10 text-xl text-left w-[32rem] ">
             Pictures/Videos of Venue

@@ -20,7 +20,7 @@ const NavBar = () => {
   }, [isOpen]);
 
   return (
-    <div className="w-full bg-primary flex flex-row px-10 py-4 items-center justify-between">
+    <div className="z-50 mb-32 fixed top-0 left-0 w-full bg-primary flex flex-row px-10 py-4 items-center justify-between">
       <a className="flex flex-row items-center text-white text-4xl" href="/">
         <Image src="/flocklogo.png" height={150} width={45} className="" />
         <h1 className="pl-3">Flock</h1>
@@ -29,7 +29,6 @@ const NavBar = () => {
       <div className="flex flex-row items-center text-white text-xl">
         <a href='/create-venue' className="mr-8">Add Venue</a>
         <a href='/profile' className="mr-8">Dashboard</a>
-        <a href='/create-venue' className="mr-8">Alerts</a>
 
         {user ? (
           <div
