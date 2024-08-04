@@ -1,0 +1,5 @@
+train: ./extracted_frames
+val: ../extracted_frames
+
+nc: 1
+names: ["head"]
