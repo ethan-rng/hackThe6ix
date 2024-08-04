@@ -151,7 +151,7 @@ const page = async ({ params }) => {
           </div>
         </div>
       </div>
-      <Nav />
+      <Nav params={params}/>
     </div>
   );
 };
